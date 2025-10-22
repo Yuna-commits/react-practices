@@ -10,7 +10,7 @@
 
 #### 05. Component: Event \*
 
-#### 06. Component: State **\***
+#### 06. Component: State \*\*\*\*\*
 
 #### 07. Component: Lifecycle & useEffect \*
 
