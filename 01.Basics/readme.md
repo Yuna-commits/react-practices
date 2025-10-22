@@ -6,7 +6,7 @@
 
 #### 02. 전통적인 DOM API 기반의 Application: 단순 파일 분리 - (예제: ex02)
 
-#### 03. 전통적인 DOM API 기반의 Application: JavaScript Module System - (예제: ex03)
+#### 03. 전통적인 DOM API 기반의 Application: ESM(ES6 Module System) - (예제: ex03)
 
 #### 04. Application Bundling - (예제: ex04)
 
