@@ -1,0 +1,22 @@
+{
+    "name": "ex04",
+    "version": "1.0.0",
+    "description": "1. Bundling I: JS Module\r 2. Bundling Environment Configuration : webpack.config.js\r 3. Webpack Development Server\r 4. Bundling II: CSS Module\r 5. Bundling III: SASS/SCSS Module\r 6. Bundling IV: Image Module",
+    "main": "index.js",
+    "scripts": {
+        "start": "npx webpack serve --progress",
+        "build": "npx webpack"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "css-loader": "^7.1.2",
+        "sass": "^1.93.2",
+        "sass-loader": "^16.0.5",
+        "style-loader": "^4.0.0",
+        "webpack": "^5.102.1",
+        "webpack-cli": "^6.0.1",
+        "webpack-dev-server": "^5.2.2"
+    }
+}

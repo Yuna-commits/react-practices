@@ -1,0 +1,26 @@
+{
+    "name": "ex05",
+    "version": "1.0.0",
+    "description": "1. DOM API 대신 React API를 사용해서 Application 작성하기",
+    "main": "index.js",
+    "scripts": {
+        "start": "npx webpack serve --progress",
+        "build": "npx webpack"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "css-loader": "^7.1.2",
+        "sass": "^1.93.2",
+        "sass-loader": "^16.0.5",
+        "style-loader": "^4.0.0",
+        "webpack": "^5.102.1",
+        "webpack-cli": "^6.0.1",
+        "webpack-dev-server": "^5.2.2"
+    },
+    "dependencies": {
+        "react": "^19.2.0",
+        "react-dom": "^19.2.0"
+    }
+}
