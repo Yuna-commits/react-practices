@@ -1,0 +1,30 @@
+{
+    "name": "ex01",
+    "version": "1.0.0",
+    "description": "1. 태그 사용은 HTML과 유사하다.\r 2. 자바스크립트 구문(조건문, 반복문, 정의문, ...등) 사용이 불가능하다.\r 3. 자바스크립트 표현식을 사용해야 한다.\r 4. JSX 태그는 꼭 닫아야 한다.\r 5. JSX 태그의 속성은 Camel Case\r 6. JSX 태그의 속성은 DOM API와 일치한다.\r 7. 인라인 스타일링을 사용할 수 있다.",
+    "main": "index.js",
+    "scripts": {
+        "start": "npx webpack serve --config config/webpack.config.js --progress --mode development",
+        "build": "npm i && npx webpack --config config/webpack.config.js --mode production"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@babel/core": "^7.28.5",
+        "@babel/preset-env": "^7.28.5",
+        "@babel/preset-react": "^7.28.5",
+        "babel-loader": "^10.0.0",
+        "css-loader": "^7.1.2",
+        "sass": "^1.93.2",
+        "sass-loader": "^16.0.6",
+        "style-loader": "^4.0.0",
+        "webpack": "^5.102.1",
+        "webpack-cli": "^6.0.1",
+        "webpack-dev-server": "^5.2.2"
+    },
+    "dependencies": {
+        "react": "^19.2.0",
+        "react-dom": "^19.2.0"
+    }
+}
