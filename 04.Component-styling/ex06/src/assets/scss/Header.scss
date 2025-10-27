@@ -1,0 +1,18 @@
+@use "variables" as *;
+
+html {
+    body {
+        :global(#App) {
+            ._Header {
+                width: $header-width;
+                font-size: $header-fontsize;
+                text-align: $text-align-center;
+                margin: $header-margin;
+                padding: $header-padding;
+                border: $header-border;
+                color: $header-color;
+                background-color: $bg-header;
+            }
+        }
+    }
+}
