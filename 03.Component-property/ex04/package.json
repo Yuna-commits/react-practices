@@ -1,5 +1,5 @@
 {
-    "name": "ex01",
+    "name": "ex02",
     "version": "1.0.0",
     "description": "1. 컴포넌트의 데이터\r 2. 부모가 소유한 데이터\r 3. 부모에서 자식으로 전달된다.\r 4. 자식에서 변경 불가\r 5. Data Flow\r     - 컴포넌트 통신\r     - Top -> Down\r 6. PropTypes: 프로퍼티 값의 유효성 검증 라이브러리",
     "main": "index.js",
