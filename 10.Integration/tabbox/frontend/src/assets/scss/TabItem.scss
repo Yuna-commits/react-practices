@@ -1,0 +1,22 @@
+@charset "utf-8";
+
+.Tab_Item {
+    float: right;
+    width: 100px;
+    border: 1px solid #999;
+    border-radius: 10px 10px 0 0;
+    margin-right: 2px;
+    text-align: center;
+    background-color: #ccc;
+    height: 22px;
+    line-height: 22px;
+    cursor: pointer;
+
+    &:nth-child(1) {
+        margin-right: 0;
+    }
+
+    &:global(.active) {
+        background-color: #fc6;
+    }
+}
