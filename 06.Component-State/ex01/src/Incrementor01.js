@@ -1,0 +1,31 @@
+import React, { Component } from "react";
+
+/*
+props : {begin, step}
+ */
+export default class extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            step: this.props.step,
+            val: this.props.begin,
+        };
+    }
+
+    render() {
+        return (
+            <div>
+                <button
+                    onClick={(e) => {
+                        this.setState({
+                            val: this.state.val + this.state.step,
+                        });
+                    }}
+                >
+                    <strong>+</strong>
+                </button>{" "}
+                <span>{this.state.val}</span>
+            </div>
+        );
+    }
+}
