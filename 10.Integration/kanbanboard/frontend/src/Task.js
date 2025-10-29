@@ -1,11 +1,10 @@
 import React from "react";
-import { _Task } from "./assets/scss/Task.scss";
-import { Task_Remove } from "./assets/scss/Task.scss";
+import { _Task, Task_Remove } from "./assets/scss/Task.scss";
 
 function Task({ name, done }) {
     return (
         <li className={_Task}>
-            <input type="checkbox" checked={done === true} />
+            <input type="checkbox" checked={done} />
             &nbsp;{name}&nbsp;
             <a href="#" className={Task_Remove}></a>
         </li>

@@ -10,14 +10,16 @@ const StyledDiv = styled.div`
 `;
 
 /*
-KanbanBoard [
-    <CardList> props: status 별 data 객체
-        <Card> props: tasks 속성
-            <TaskList> props: task 이름
-                <Task />
-            </TaskList>
-        </Card>
-    </CardList>
+root [
+    KanbanBoard [
+        <CardList> props: status 별 data 객체
+            <Card> props: tasks 속성
+                <TaskList> props: task 이름
+                    <Task />
+                </TaskList>
+            </Card>
+        </CardList>
+    ]
 ]
 */
 function KanbanBoard() {
@@ -32,7 +34,7 @@ function KanbanBoard() {
     }));
 
     return (
-        <StyledDiv id="Kanban_Board">
+        <StyledDiv className="Kanban_Board">
             {filteredData.map((data) => (
                 <CardList
                     key={data.status}

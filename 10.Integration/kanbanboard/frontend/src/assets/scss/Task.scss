@@ -1,15 +1,17 @@
-._Task {
-    &:first-child {
-        margin-top: 8px;
-        padding-top: 8px;
-        border-top: dashed 1px #ddd;
-    }
-}
+:global(.Kanban_Board) {
+    ._Task {
+        &:first-child {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: dashed 1px #ddd;
+        }
 
-.Task_Remove {
-    &:after {
-        display: inline-block;
-        color: #d66;
-        content: "✖";
+        .Task_Remove {
+            &:after {
+                display: inline-block;
+                color: #d66;
+                content: "✖";
+            }
+        }
     }
 }
