@@ -12,22 +12,24 @@ export default function App() {
         };
     };
 
+    // hooks
     const [currentTime, setCurrentTime] = useState(getCurrentTime());
     const [tick, setTick] = useState(1);
 
     useEffect(() => {
+        /* after mount */
         const intervalId = setInterval(() => {
             setCurrentTime(getCurrentTime());
+            setTick((x) => {
+                return x + 1;
+            });
         }, 1000);
 
-        return function () {
+        return () => {
+            /* before unmount */
             clearInterval(intervalId);
         };
     }, []); // componentDidMount(), componentWillUnmount()
-
-    useEffect(() => {
-        setTick(tick + 1);
-    }, [currentTime]);
 
     return tick % 10 === 0 ? null : (
         <Clock
