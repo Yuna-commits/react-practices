@@ -1,0 +1,23 @@
+# Spring Configuration
+spring:
+   application:
+      name: ajax-practices-backend
+
+   devtools:
+      restart:
+         enabled: true
+      livereload:
+         enabled: true
+
+   mvc:
+      static-path-pattern: /assets/**
+
+# Server Configuration
+server:
+   port: 8080
+   servlet:
+      context-path: /
+   error:
+      whitelabel:
+         enabled: false
+      path: /error
