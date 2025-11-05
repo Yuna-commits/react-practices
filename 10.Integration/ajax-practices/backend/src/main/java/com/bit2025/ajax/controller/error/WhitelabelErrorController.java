@@ -23,7 +23,7 @@ public class WhitelabelErrorController implements ErrorController {
 	 * from GlobalExceptionHandler
 	 */
 	// 매핑되지 않은 URL 처리
-	@RequestMapping("/404")
+	@GetMapping("/404")
 	public ResponseEntity<JsonResult<?>> _404() {
 		return ResponseEntity
 				.status(HttpStatus.NOT_FOUND)
@@ -31,7 +31,7 @@ public class WhitelabelErrorController implements ErrorController {
 	}
 
 	// 컨트롤러 내부 예외 처리
-	@RequestMapping("/500")
+	@GetMapping("/500")
 	public ResponseEntity<JsonResult<?>> _500(@RequestAttribute String errors) {
 		return ResponseEntity
 				.internalServerError()

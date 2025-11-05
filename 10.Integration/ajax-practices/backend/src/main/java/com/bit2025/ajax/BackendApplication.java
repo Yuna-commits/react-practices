@@ -15,10 +15,10 @@ public class BackendApplication {
 	@Bean("items")
 	List<Item> itemList() {
 		return new LinkedList<Item>(
-				List.of(new Item(1L, "FOOD", "apple pie"), 
-						new Item(2L, "BOOK", "history of western civilization"),
-						new Item(3L, "CLOTHE", "hood shirt"), 
-						new Item(4L, "BOOK", "spring in action")));
+				List.of(new Item(10L, "FOOD", "apple pie"), 
+						new Item(8L, "BOOK", "history of western civilization"),
+						new Item(6L, "CLOTHE", "hood shirt"), 
+						new Item(1L, "BOOK", "spring in action")));
 	}
 
 	public static void main(String[] args) {

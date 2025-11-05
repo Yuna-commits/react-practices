@@ -15,9 +15,9 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @RequiredArgsConstructor
-@EqualsAndHashCode(exclude= {"type", "name", "image"})
+@EqualsAndHashCode(exclude = { "type", "name", "image" })
 public class Item {
-	
+
 	@NonNull
 	private Long id;
 	@NonNull
@@ -25,5 +25,8 @@ public class Item {
 	@NonNull
 	private String name;
 	private String image;
-	
+
+	public Item(Long id) {
+		this.id = id;
+	}
 }
