@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 // style
 import Modal from "react-modal";
@@ -21,47 +21,18 @@ const Item = styled.li``;
 ReactModal.setAppElement("#root");
 
 function App(props) {
+    const refCreateForm1 = useRef(null);
+    const refCreateForm2 = useRef(null);
     // -----------------------------
     // 상태 정의
     // -----------------------------
     const [items, setItems] = useState(null);
     const [modalData, setModalData] = useState({
+        itemId: 0,
         itemType: "",
         itemName: "",
         open: false,
     });
-
-    // -----------------------------
-    // 서버에서 전체 아이템 목록 가져오기 (GET /item)
-    // -----------------------------
-    const fetchItems = async () => {
-        try {
-            const response = await fetch("/item", {
-                method: "get",
-                headers: {
-                    Accept: "application/json",
-                },
-                body: null,
-            });
-
-            if (!response.ok) {
-                throw new Error(response.status);
-            }
-
-            // json 응답 받기
-            const jsonResult = await response.json();
-
-            // 실패
-            if (jsonResult.result === "fail") {
-                throw new Error(jsonResult.message);
-            }
-
-            // 성공 - 아이템 목록을 상태에 저장
-            setItems(jsonResult.data);
-        } catch (err) {
-            console.error(err);
-        }
-    };
 
     // -----------------------------
     // 아이템 등록 (POST /item, JSON)
@@ -71,8 +42,8 @@ function App(props) {
             const response = await fetch("/item", {
                 method: "post",
                 headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
+                    Accept: "application/json", // 기대하는 응답
+                    "Content-Type": "application/json", // 보낸 데이터 형식
                 },
                 body: JSON.stringify(item), // 객체 -> JSON 문자열 변환
             });
@@ -91,6 +62,8 @@ function App(props) {
 
             // 성공 - 새로운 아이템을 기존 리스트 맨 앞에 추가
             setItems([jsonResult.data, ...items]);
+            // 폼 입력칸 초기화
+            refCreateForm1.current.reset();
         } catch (err) {
             console.error(err);
         }
@@ -120,6 +93,86 @@ function App(props) {
 
             // 성공 - 새로운 아이템을 기존 리스트 맨 앞에 추가
             setItems([jsonResult.data, ...items]);
+            // 폼 입력칸 초기화
+            refCreateForm2.current.reset();
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    // -----------------------------
+    // 서버에서 전체 아이템 목록 가져오기 (GET /item)
+    // -----------------------------
+    const fetchItems = async () => {
+        try {
+            const response = await fetch("/item", {
+                method: "get",
+                headers: {
+                    Accept: "application/json",
+                },
+                body: null, // GET 요청은 body 없음
+            });
+
+            if (!response.ok) {
+                throw new Error(response.status);
+            }
+
+            // json 응답 받기
+            const jsonResult = await response.json();
+
+            // 실패
+            if (jsonResult.result === "fail") {
+                throw new Error(jsonResult.message);
+            }
+
+            // 성공 - 아이템 목록을 상태에 저장
+            setItems(jsonResult.data);
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    // -----------------------------
+    // 아이템 수정 (PUT /item/{id})
+    // -----------------------------
+    const updateItem = async (id, item) => {
+        try {
+            // URLSearchParams(...) => 쿼리 스트링으로 변환
+            const response = await axios.put(
+                `/item/${id}`,
+                new URLSearchParams(item),
+                {
+                    Accept: "application/json",
+                    "Content-Type": "application/x-www-from-urlencoded",
+                }
+            );
+
+            const jsonResult = response.data;
+
+            if (jsonResult.result === "fail") {
+                throw new Error(jsonResult.message);
+            }
+
+            const updateItem = jsonResult.data;
+            const index = items.findIndex((el) => {
+                return el.id === updateItem.id;
+            });
+
+            // index(수정할 위치)를 기준으로 나누기,중간 삽입으로 상태에 저장
+            setItems([
+                ...items.slice(0, index),
+                updateItem,
+                ...items.slice(index + 1),
+            ]);
+
+            setModalData(
+                update(modalData, {
+                    open: { $set: false },
+                    itemId: { $set: 0 },
+                    itemType: { $set: "" },
+                    itemName: { $set: "" },
+                })
+            );
         } catch (err) {
             console.error(err);
         }
@@ -162,6 +215,7 @@ function App(props) {
                     일반 아이템 등록 폼
                 -------------------------- */}
                 <form
+                    ref={refCreateForm1}
                     onSubmit={(event) => {
                         event.preventDefault();
 
@@ -199,6 +253,7 @@ function App(props) {
                     이미지 포함 등록 폼
                 -------------------------- */}
                 <form
+                    ref={refCreateForm2}
                     onSubmit={(event) => {
                         event.preventDefault();
 
@@ -250,10 +305,13 @@ function App(props) {
                                         `/item/${item.id}`
                                     );
                                     const jsonResult = response.data;
-
+                                    console.log(jsonResult.data);
                                     setModalData(
                                         update(modalData, {
                                             open: { $set: true },
+                                            itemId: {
+                                                $set: jsonResult.data.id,
+                                            },
                                             itemType: {
                                                 $set: jsonResult.data.type,
                                             },
@@ -303,7 +361,14 @@ function App(props) {
                 style={{ content: { width: 350 } }}
             >
                 <h3>Update Item</h3>
-                <form>
+                <form
+                    onSubmit={(event) => {
+                        event.preventDefault();
+
+                        const item = serialize(event.target, { hash: true });
+                        updateItem(modalData.itemId, item);
+                    }}
+                >
                     <label>Type</label>
                     &nbsp;
                     {/* 이전 입력값 표시, 수정 */}

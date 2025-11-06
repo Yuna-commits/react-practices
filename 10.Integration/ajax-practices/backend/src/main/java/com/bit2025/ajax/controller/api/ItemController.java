@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -38,30 +39,6 @@ public class ItemController {
 	// @Qaulifier : "items"란 이름의 객체 식별
 	public ItemController(@Qualifier("items") List<Item> items) {
 		this.items = items;
-	}
-	
-	// 프론트로 아이템 목록 보내기
-	// ResponseEntity : HTTP 상태 코드, 응답 본문 제어하기 위해 사용
-	@GetMapping
-	public ResponseEntity<JsonResult<List<Item>>> read() {
-		log.info("Request [GET /item]");
-		
-		return ResponseEntity
-				.status(HttpStatus.OK)
-				.body(JsonResult.success(items));
-	}
-	
-	// 프론트가 보낸 id에 대응하는 아이템 정보 보내기
-	@GetMapping("/{id}")
-	public ResponseEntity<JsonResult<Item>> read(@PathVariable Long id) {
-		log.info("Request [GET /item/{}]", id);
-
-		return ResponseEntity
-				.status(HttpStatus.OK)
-				.body(JsonResult.success(
-						items.stream()
-							 .filter(item -> item.getId() == id)
-							 .findAny().orElse(null)));
 	}
 	
 	// 프론트에서 받은 아이템을 목록에 저장하기
@@ -111,6 +88,61 @@ public class ItemController {
 		}
 	}
 	
+	// 프론트로 아이템 목록 보내기
+	// ResponseEntity : HTTP 상태 코드, 응답 본문 제어하기 위해 사용
+	@GetMapping
+	public ResponseEntity<JsonResult<List<Item>>> read() {
+		log.info("Request [GET /item]");
+		
+		return ResponseEntity
+				.status(HttpStatus.OK)
+				.body(JsonResult.success(items));
+	}
+	
+	// 프론트가 보낸 id에 대응하는 아이템 정보 보내기
+	@GetMapping("/{id}")
+	public ResponseEntity<JsonResult<Item>> read(@PathVariable Long id) {
+		log.info("Request [GET /item/{}]", id);
+		
+		return ResponseEntity
+			.status(HttpStatus.OK)
+			.body(JsonResult.success(
+					items.stream()
+						 .filter(item -> item.getId() == id)
+						 .findAny().orElse(null)));
+	}
+	
+	// 프론트가 보낸 id에 해당하는 아이템 수정하기
+	@PutMapping("/{id}")
+	public ResponseEntity<JsonResult<Item>> update(@PathVariable Long id, Item item) {
+		log.info("Request[put /item/{}][{}]", id, item);
+		
+		// 같은 id를 가진 item 위치 찾기(없으면 -1)
+		int index = items.indexOf(new Item(id));
+
+		Item updateItem = index == -1 ? null : items.get(index);
+		
+		if (updateItem != null) {
+			updateItem.setType(item.getType());
+			updateItem.setName(item.getName());
+		}
+		
+		// Optional.of(null); // value : null
+		// Optional.ofNullable(...) // value : null일 수 있는 값
+		
+		/*
+		Optional.ofNullable(items.indexOf(new Item(id)) == -1 ? null : items.get(index))
+				.ifPresent((t) -> {
+					t.setType(item.getType());
+					t.setName(item.getName());
+				});
+		*/ 
+
+		return ResponseEntity
+				.status(HttpStatus.OK)
+				.body(JsonResult.success(updateItem));
+	}
+	
 	// 프론트가 보낸 id에 해당하는 아이템 삭제하기
 	@DeleteMapping("/{id}")
 	public ResponseEntity<JsonResult<Boolean>> delete(@PathVariable Long id) {
@@ -123,22 +155,4 @@ public class ItemController {
 						items.removeIf((item) -> item.getId() == id)));
 	}
 	
-	// 프론트가 보낸 id에 해당하는 아이템 수정하기
-	@PutMapping("/{id}")
-	public ResponseEntity<JsonResult<Item>> update(@PathVariable Long id, Item item) {
-		log.info("Request[put /item/{}][{}]", id, item);
-		
-		// 같은 id를 가진 item 위치 찾기(없으면 -1)
-		int index = items.indexOf(new Item(id));
-		Item updateItem = index == -1 ? null : items.get(index);
-
-		if (updateItem != null) {
-			updateItem.setType(item.getType());
-			updateItem.setName(item.getName());
-		}
-		
-		return ResponseEntity
-				.status(HttpStatus.OK)
-				.body(JsonResult.success(updateItem));
-	}
 }
