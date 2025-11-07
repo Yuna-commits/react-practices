@@ -1,0 +1,106 @@
+# active spring boot profile
+spring:
+    application:
+        name: kanbanboard
+    profiles:
+        active: development
+
+---
+# common configuration
+spring:
+    mvc:
+        # Path pattern used for static resources
+        static-path-pattern: /assets/**
+
+    web:
+        resources:
+            # Locations of static resources
+            static-locations: classpath:/assets/
+
+    thymeleaf:
+        prefix: classpath:templates/
+        check-template-location: true
+        mode: HTML5
+        suffix: .html
+        cache: false
+
+    # datasource
+    datasource:
+        driver-class-name: org.h2.Driver
+        url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;MODE=MYSQL
+        username: sa
+        password:
+
+# mybatis
+mybatis:
+    config-location: classpath:mybatis/configuration.xml
+
+# server
+server:
+    servlet:
+        context-path: /
+        encoding:
+            charset: UTF-8
+            enabled: true
+
+---
+# development profile
+spring:
+    config:
+        activate:
+            on-profile: development
+
+    # devtools - live reload
+    devtools:
+        restart:
+            enabled: true
+        livereload:
+            enabled: true
+
+    thymeleaf:
+        cache: false
+
+    h2:
+        console:
+            enabled: true
+            path: /h2-console
+
+server:
+    port: 8080
+
+
+# logging
+logging:
+    pattern:
+        console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n"
+    level:
+        root: INFO
+
+---
+# production profile
+spring:
+    config:
+        activate:
+            on-profile: production
+
+    thymeleaf:
+        cache: true
+
+server:
+    port: 80
+
+logging:
+    pattern:
+        file: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n"
+    logback:
+        rollingpolicy:
+            file-name-pattern: "logs/${spring.application.name}.%d{yyyy-MM-dd}.%i.log.zip"
+            max-file-size: 10MB
+            max-history: 10
+    file:
+        name: logs/${spring.application.name}.log
+    level:
+        com:
+            bit2025:
+                kanbanboard:
+                    exception: ERROR
