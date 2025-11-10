@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import CardList from "./CardList.js";
-import kanbanData from "./assets/json/data.js";
+
+// API
+import axios from "axios";
 
 const StyledDiv = styled.div`
     white-space: nowrap;
@@ -9,37 +11,42 @@ const StyledDiv = styled.div`
     margin: 20px auto;
 `;
 
-/*
-root [
-    KanbanBoard [
-        <CardList> props: status 별 data 객체
-            <Card> props: tasks 속성
-                <TaskList> props: task 이름
-                    <Task />
-                </TaskList>
-            </Card>
-        </CardList>
-    ]
-]
-*/
 function KanbanBoard() {
-    /*
-    status 별로 필터링 -> 필터링 된 데이터를 CardList로 렌더링
-    */
-    const statuses = ["ToDo", "Doing", "Done"];
+    const [allCards, setAllCards] = useState([]);
 
-    const filteredData = statuses.map((status) => ({
+    // 마운트 시 1회만 fetchCards() 실행
+    useEffect(() => {
+        // 서버에서 카드 목록 가져오기 (GET /card)
+        const fetchCards = async () => {
+            try {
+                const { data: jsonResult } = await axios.get("/api/card");
+
+                if (jsonResult.result !== "success") {
+                    throw new Error(jsonResult.message);
+                }
+                // allCards 내부에 tasks 없음!
+                setAllCards(jsonResult.data);
+            } catch (err) {
+                console.error(err);
+            }
+        };
+        fetchCards();
+    }, []);
+
+    const statusList = ["ToDo", "Doing", "Done"];
+    // 각 status에 속한 카드만 필터링
+    const filtered = statusList.map((status) => ({
         status,
-        cards: kanbanData.filter((list) => list.status === status),
+        cardList: allCards.filter((card) => card.status === status),
     }));
 
     return (
-        <StyledDiv className="Kanban_Board">
-            {filteredData.map((data) => (
+        <StyledDiv className={"Kanban_Board"}>
+            {filtered.map((data) => (
                 <CardList
                     key={data.status}
-                    status={data.status}
-                    cards={data.cards}
+                    title={data.status}
+                    cards={data.cardList}
                 />
             ))}
         </StyledDiv>

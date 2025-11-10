@@ -1,10 +1,13 @@
 # APIs
 
-
 ### GET /api/card
+
 #### Parameters
+
 none
+
 #### Response
+
 code: 200
 
 content-type: application/json
@@ -13,31 +16,35 @@ example value
 
 ```json
 {
-  "result": "success",
-  "message": null,
-  "data": [
-    {
-      "no": 1,
-      "title": "...",
-      "description": "...",
-      "status": "ToDo"
-    },
-    {
-      "no": 2,
-      "title": "...",
-      "description": "...",
-      "status": "Done"
-    }    
-  ]
+    "result": "success",
+    "message": null,
+    "data": [
+        {
+            "no": 1,
+            "title": "...",
+            "description": "...",
+            "status": "ToDo"
+        },
+        {
+            "no": 2,
+            "title": "...",
+            "description": "...",
+            "status": "Done"
+        }
+    ]
 }
 ```
----
 
+---
 
 ### GET /api/task
+
 #### Parameters
+
 cardNo : Long(query)
+
 #### Response
+
 code: 200
 
 content-type: application/json
@@ -46,45 +53,50 @@ example value
 
 ```json
 {
-  "result": "success",
-  "message": null,
-  "data": [
-    {
-      "no": 1,
-      "name": "...",
-      "done": "Y",
-      "cardNo": "10"
-    },
-    {
-      "no": 2,
-      "title": "...",
-      "done": "N",
-      "cardNo": "10"
-    }    
-  ]
+    "result": "success",
+    "message": null,
+    "data": [
+        {
+            "no": 1,
+            "name": "...",
+            "done": "Y",
+            "cardNo": "10"
+        },
+        {
+            "no": 2,
+            "name": "...",
+            "done": "N",
+            "cardNo": "10"
+        }
+    ]
 }
 ```
+
 ---
 
+### POST /api/task
 
-### POST /kanbaboard/task
 #### Parameters
+
 none
 
 #### Request body
+
 content-type: application/json
 
 example value
+
 ```json
 {
-  "no": null,
-  "title": "...",
-  "done": "N",
-  "cardNo": "10"
-} 
+    "no": null,
+    "name": "...",
+    "done": "N",
+    "cardNo": "10"
+}
 ```
 
 #### Response
+
 code: 200
 
 content-type: application/json
@@ -93,22 +105,25 @@ example value
 
 ```json
 {
-  "no": 5,
-  "title": "...",
-  "done": "N",
-  "cardNo": "10"
-} 
+    "no": 5,
+    "name": "...",
+    "done": "N",
+    "cardNo": "10"
+}
 ```
+
 ---
 
+### PUT /api/task/{no}
 
-### PUT /kanbaboard/task/{no}
 #### Parameters
+
 no : Long(PATH)
 
 done: String(query)
 
 #### Response
+
 code: 200
 
 content-type: application/json
@@ -119,23 +134,23 @@ example value
 {
   "result": "success",
   "message": null,
-  "data": {
-    "no": 10,
-    "done": "Y"
-  }
+  "data": true | false
 }
 ```
+
 ---
 
+### DELETE /api/task/{no}
 
-### DELETE /kanbaboard/task/{no}
 #### Parameters
+
 no : Long(PATH)
 
 #### Response
+
 code: 200
 
-content-type: application/json 
+content-type: application/json
 
 example value
 
@@ -143,6 +158,6 @@ example value
 {
   "result": "success",
   "message": null,
-  "data": 10
+  "data": true | false
 }
 ```

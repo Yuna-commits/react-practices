@@ -1,7 +1,7 @@
 package com.bit2025.kanbanboard.repository;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +24,12 @@ public class TaskRepository {
 	}
 
 	public Boolean updateDone(Long no, String done) {
-		return sqlSession.update("task.updateDone", new HashMap<String, Object>() {
-			{
-				put("no", no);
-				put("done", done);
-			}
-		}) == 1;
-
+		return sqlSession.update("task.updateDone", 
+				Map.of("no", no, "done", done)) == 1;
 	}
+
+	public Boolean deleteByNo(Long no) {
+		return sqlSession.delete("task.deleteByNo", no) == 1;
+	}
+
 }
