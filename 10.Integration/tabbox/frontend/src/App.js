@@ -7,6 +7,8 @@ const StyledDiv = styled.div`
 `;
 
 function App() {
+    console.log(API_HOST);
+
     return (
         <StyledDiv id={"App"}>
             <TabBox />

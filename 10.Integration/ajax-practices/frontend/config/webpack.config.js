@@ -1,11 +1,13 @@
 const path = require("path");
+const webpack = require("webpack");
+const CaseSensitivePathsPlugin = require("case-sensitive-paths-webpack-plugin");
 
 module.exports = {
     mode: "development",
     entry: path.resolve("src/index.js"), // 번들링 시작 파일
     // 결과
     output: {
-        path: path.resolve("public"),
+        path: path.resolve("../backend/src/main/resources"),
         filename: "assets/js/main.js",
         assetModuleFilename: "assets/images/[hash][ext]",
     },
@@ -33,6 +35,16 @@ module.exports = {
             },
         ],
     },
+    plugins: [
+        new CaseSensitivePathsPlugin(),
+        new webpack.DefinePlugin({
+            API_HOST: JSON.stringify(
+                process.env.NODE_ENV === "development"
+                    ? ""
+                    : "http://192.168.0.181:8080/api"
+            ),
+        }),
+    ],
     devServer: {
         host: "0.0.0.0",
         port: 9090,

@@ -1,7 +1,16 @@
 # Spring Configuration
 spring:
    application:
-      name: ajax-practices-backend
+      name: ajax-practices
+   profiles:
+      active: development # main
+
+---
+# Development Configuration
+spring:
+   config:
+      activate:
+         on-profile: devleopment
 
    devtools:
       restart:
@@ -9,15 +18,51 @@ spring:
       livereload:
          enabled: true
 
+server:
+   port: 8080
+
+logging:
+   pattern:
+      console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n"
+   level:
+      root: info
+
+---
+# Production Configuration
+spring:
+   config:
+      activate:
+         on-profile: production
+
+server:
+   port: 80
+
+logging:
+   pattern:
+      file: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n"
+   logback:
+      rollingpolicy:
+         file-name-pattern: "logs/${spring.application.name}.%d{yyyy-MM-dd}.%i.log.zip"
+         max-file-size: 10MB
+         max-history: 10
+   file:
+      name: logs/${spring.application.name}.log
+   level:
+      com:
+         bit2025:
+            ajax:
+               exception: ERROR
+
+---
+# Common Configuration
+spring:
    mvc:
       static-path-pattern: /assets/**
 
-   # resource handler mapping
    web:
       resources:
-         static-locations: [classpath:assets/, file:/ajax-practices-uploads/]
+         static-locations: [classpath:assets/, file:/ajax-practices-uploads]
 
-   # servlet
    servlet:
       multipart:
          enabled: true
@@ -25,9 +70,7 @@ spring:
          max-request-size: 104857600
          file-size-threshold: 5242880
 
-# Server Configuration
 server:
-   port: 8080
    servlet:
       context-path: /
    error:

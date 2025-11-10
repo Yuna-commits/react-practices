@@ -54,8 +54,10 @@ logging:
    file:
       name: logs/${spring.application.name}.log
    level:
-      tabbox:
-         exception: ERROR
+      com:
+         bit2025:
+            tabbox:
+               exception: ERROR
 
 ---
 # Common Configuration
